@@ -11,7 +11,7 @@ struct Cell
 	float TraversalCost = 1.0f;
 	float Size = 1.0f;
 
-	// UI Data (Will be replaced later)
+	// UI Data (Will be replaced later) 
 	char representation = IsBlocked ? '#' : '.';
 	char AgentRepresentation = 'A';
 
