@@ -5,6 +5,7 @@
 #include <chrono>
 
 
+//********************** AiAgent **********************
 
 void AiAgent::BeingPlay()
 {
@@ -50,11 +51,13 @@ void AiAgent::MoveAlongPath(float deltaTime)
 		if (distance > 1.f)
 		{
 			direction /= distance; // Normalize the direction vector
-			AgentSprite.move(direction * speed * deltaTime);
+			AgentVelocity = direction * speed * deltaTime;
+			AgentSprite.move(AgentVelocity);
 		}
 		else
 		{
 			AgentSprite.setPosition(targetPos);
+			AgentVelocity = { 0.f, 0.f };
 			currentPathIndex++;
 		}
 	}//if
@@ -72,7 +75,23 @@ void AiAgent::updateAnimation(float deltaTime)
 	
 
 }
+//********************** EnemyAi **********************
 
+void EnemyAi::Update(float deltaTime, sf::RenderWindow& window)
+{
+	sf::Vector2f tempVel = { 0.f, 0.f };
+	if (AgentVelocity == tempVel && (AiAnimationState != AnimationStates::Ilde))
+	{
+		AiAnimationState = AnimationStates::Ilde;
+	}
+	else if (AgentVelocity != tempVel && AiAnimationState != AnimationStates::Running)
+	{
+		AiAnimationState = AnimationStates::Running;
+	}
+}
+
+
+//********************** OrcAI **********************
 void OrcAi::BeingPlay()
 {
 
@@ -102,7 +121,6 @@ void OrcAi::updateAnimation(float deltaTime)
 
 }
 
-void OrcAi::Update(float deltaTime)
-{
-	updateAnimation(deltaTime);
-}
+
+
+

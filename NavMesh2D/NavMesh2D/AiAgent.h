@@ -15,6 +15,7 @@ public:
 	sf::Clock clock;
 	float speed = 120.f;
 	int currentPathIndex = 0;
+	sf::Vector2f AgentVelocity;
 
 	Animation walkAnimation = Animation({ 28, 27 }, 8, 0.2f);
 	
@@ -74,7 +75,7 @@ public:
 	{
 	}
 	void BeingPlay() override{}
-	virtual void Update(float deltaTime) {}
+	virtual void Update(float deltaTime, sf::RenderWindow& window);
 };
 
 class OrcAi : public EnemyAi
@@ -93,7 +94,6 @@ public:
 	}
 
 	void  updateAnimation(float deltaTime) override;
-	void Update(float deltaTime) override;
 };
 
 
