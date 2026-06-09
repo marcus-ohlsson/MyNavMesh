@@ -2,7 +2,7 @@
 #include <cmath>
 
 std::vector<Cell> AiNavigation::FindPath(const std::vector<Cell>& Grid, 
-	int GridWidth, int GridLength, Cell StartCell, Cell EndCell)
+	int GridWidth, int GridLength, Cell StartCell, Cell EndCell, int size)
 {
 	std::vector<Cell> CopyGrid = Grid;
 
@@ -65,7 +65,7 @@ std::vector<Cell> AiNavigation::FindPath(const std::vector<Cell>& Grid,
 
 			int N_Index = newCell.Y * GridWidth + newCell.X;
 
-			if (CopyGrid[N_Index].IsClosed || CopyGrid[N_Index].IsBlocked) 
+			if (CopyGrid[N_Index].IsClosed || !canAgentFit(CopyGrid, GridWidth, GridLength, newCell.X, newCell.Y, size)) 
 			{
 				continue;
 			}
@@ -119,6 +119,31 @@ std::vector<Cell> AiNavigation::ReconstructPath(const std::vector<Cell>& CopyGri
 bool AiNavigation::InBounds(int GridWidth, int GridLength, int X, int Y)
 {
 	return X >= 0 && X < GridWidth && Y >= 0 && Y < GridLength;
+}
+
+bool AiNavigation::canAgentFit(const std::vector<Cell>& Grid, int GridWidth, int GridLength, int X, int Y, int size)
+{
+	for (int i = 0; i < size; ++i) 
+	{
+		for (int j = 0; j < size; ++j) 
+		{
+			int checkX = X + i;
+			int checkY = Y + j;
+
+			if (!InBounds(GridWidth, GridLength, checkX, checkY)) 
+			{
+				return false;
+			}
+
+			int index = checkY * GridWidth + checkX;
+
+			if (Grid[index].IsBlocked) 
+			{
+				return false;
+			}
+		}
+	}
+	return true;
 }
 
 

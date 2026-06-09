@@ -38,7 +38,9 @@ int main()
 	);
 
 	//creates AI agent
-	OrcAi agent("EliteOrc_1.png", { 1 * World::CellSize, 0 * World::CellSize }, { World::CellSize, World::CellSize });
+	OrcAi agent("EliteOrc_1.png", Vector2Int(1, 0), 1);
+	OrcAi agent2("EliteOrc_1.png", Vector2Int(1, 3), 1);
+	//OrcAi agent2("EliteOrc_1.png", Vector2Int(1, 1), 1);
 	
 	sf::RectangleShape endPos;
 	endPos.setSize({ World::CellSize, World::CellSize });
@@ -62,7 +64,7 @@ int main()
 			//button and block place meant
 			if (startButton.IsClicked(window, *event))
 			{
-				agent.GetAgentPath(Vector2Int(1, 0), end_pos, &world);
+				//agent.GetRandomPath(agent.CurrentGridPos, &world);
 				//agent.AiAnimationState = AnimationStates::Running;
 				StartMoving = true;
 			}
@@ -90,7 +92,15 @@ int main()
 		
 		if (StartMoving) 
 		{
-			agent.MoveAlongPath(deltaTime);
+			if (!agent.MoveAlongPath(deltaTime))
+			{
+				agent.GetRandomPath(agent.CurrentGridPos, &world);
+				
+			}
+			if(!agent2.MoveAlongPath(deltaTime))
+			{
+				agent2.GetRandomPath(agent2.CurrentGridPos, &world);
+			}
 		}
 		
 
@@ -104,10 +114,14 @@ int main()
 			window.draw(op);
 		}
 		agent.Draw(window);
+		agent2.Draw(window);
 
 		//ui
 		agent.Update(deltaTime, window);
 		agent.updateAnimation(deltaTime);
+		agent2.Update(deltaTime, window);
+		agent2.updateAnimation(deltaTime);
+
 		startButton.Update(window);
 		window.display();
 	}//while window draw loop

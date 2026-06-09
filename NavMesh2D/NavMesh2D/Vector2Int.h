@@ -7,5 +7,15 @@ struct Vector2Int
 
 	Vector2Int() = default;
 	Vector2Int(int x, int y) : X(x), Y(y) {}
+
+    bool operator==(const Vector2Int& other) const
+    {
+        return X == other.X && Y == other.Y;
+    }
+
+    bool operator!=(const Vector2Int& other) const
+    {
+        return !(*this == other);
+    }
 };
 

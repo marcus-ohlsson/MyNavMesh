@@ -8,11 +8,13 @@ class AiNavigation
 {
 	public :
 		std::vector<Cell> FindPath(const std::vector<Cell>& Grid, int GridWidth, int GridLength,
-			Cell StartCell, Cell EndCell);
+			Cell StartCell, Cell EndCell, int size);
 
+		bool canAgentFit(const std::vector<Cell>& Grid, int GridWidth, int GridLength, int X, int Y, int size);
 private:
 	bool IsNearlyEqual(float a, float b, float tolerance = 0.001f);
 	std::vector<Cell> ReconstructPath(const std::vector<Cell>& CopyGrid, int EndIndex);
 	bool InBounds(int GridWidth, int GridLength, int X, int Y);
+	
 };
 
